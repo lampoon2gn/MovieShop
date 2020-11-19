@@ -13,5 +13,8 @@ namespace MovieShop.Core.Entities
 
         [MaxLength(24)]
         public string Name { get; set; }
+
+        //the navigation property of movie+genre will automatically create a junction table for genre and movie
+        public ICollection<Movie> Movies { get; set; }
     }
 }

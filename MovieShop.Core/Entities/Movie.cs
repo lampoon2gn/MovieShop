@@ -25,5 +25,11 @@ namespace MovieShop.Core.Entities
         public DateTime? UpdatedDate { get; set; }
         public string UpdatedBy { get; set; }
         public string CreatedBy { get; set; }
+
+        //one movie can have multiple trailers
+        public ICollection<Trailer> Trailers { get; set; }
+
+        //the navigation property of movie+genre will automatically create a junction table for genre and movie
+        public ICollection<Genre> Genres { get; set; }
     }
 }

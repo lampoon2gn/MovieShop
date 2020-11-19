@@ -19,6 +19,7 @@ namespace MovieShop.Infrastructure.Data
         {
             //action delegate takes a method with void return type
             modelBuilder.Entity<Movie>(ConfigureMovie);
+            modelBuilder.Entity<Trailer>(ConfigureTrailer);
         }
 
         private void ConfigureMovie(EntityTypeBuilder<Movie> builder)
@@ -37,7 +38,18 @@ namespace MovieShop.Infrastructure.Data
             builder.Property(m => m.Price).HasColumnType("decimal(5, 2)").HasDefaultValue(9.9m);
             builder.Property(m => m.CreatedDate).HasDefaultValueSql("getdate()");
         }
+
+        private void ConfigureTrailer(EntityTypeBuilder<Trailer> builder)
+        {
+            //place to confugure our Trailer entity
+            builder.ToTable("Trailer");
+            builder.HasKey(t=>t.Id);
+            builder.Property(t => t.TrailerUrl).HasMaxLength(2084);
+            builder.Property(t => t.Name).HasMaxLength(2084);
+
+        }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Movie> Movies { get; set; }
+        public DbSet<Trailer> Trailers { get; set; }
     }
 }
