@@ -31,5 +31,8 @@ namespace MovieShop.Core.Entities
 
         //the navigation property of movie+genre will automatically create a junction table for genre and movie
         public ICollection<Genre> Genres { get; set; }
+        public ICollection<MovieCast> MovieCasts { get; set; }
+        public ICollection<MovieCrew> MovieCrews { get; set; }
+        public ICollection<Review> Reviews { get; set; }
     }
 }
