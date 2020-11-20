@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MovieShop.Infrastructure.Data;
 
 namespace MovieShop.Infrastructure.Migrations
 {
     [DbContext(typeof(MovieShopDbContext))]
-    partial class MovieShopDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201120004158_CreateTableFavorite")]
+    partial class CreateTableFavorite
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,39 +250,6 @@ namespace MovieShop.Infrastructure.Migrations
                     b.ToTable("MovieCrew");
                 });
 
-            modelBuilder.Entity("MovieShop.Core.Entities.Purchase", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("MovieId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("PurchaseDateTime")
-                        .HasPrecision(7)
-                        .HasColumnType("datetime2(7)");
-
-                    b.Property<Guid>("PurchaseNumber")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MovieId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Purchase");
-                });
-
             modelBuilder.Entity("MovieShop.Core.Entities.Review", b =>
                 {
                     b.Property<int>("MovieId")
@@ -302,22 +271,6 @@ namespace MovieShop.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Review");
-                });
-
-            modelBuilder.Entity("MovieShop.Core.Entities.Role", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Role");
                 });
 
             modelBuilder.Entity("MovieShop.Core.Entities.Trailer", b =>
@@ -402,21 +355,6 @@ namespace MovieShop.Infrastructure.Migrations
                     b.ToTable("User");
                 });
 
-            modelBuilder.Entity("MovieShop.Core.Entities.UserRole", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("UserRole");
-                });
-
             modelBuilder.Entity("GenreMovie", b =>
                 {
                     b.HasOne("MovieShop.Core.Entities.Genre", null)
@@ -489,25 +427,6 @@ namespace MovieShop.Infrastructure.Migrations
                     b.Navigation("Movie");
                 });
 
-            modelBuilder.Entity("MovieShop.Core.Entities.Purchase", b =>
-                {
-                    b.HasOne("MovieShop.Core.Entities.Movie", "Movie")
-                        .WithMany("Purchases")
-                        .HasForeignKey("MovieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MovieShop.Core.Entities.User", "User")
-                        .WithMany("Purchases")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Movie");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("MovieShop.Core.Entities.Review", b =>
                 {
                     b.HasOne("MovieShop.Core.Entities.Movie", "Movie")
@@ -538,25 +457,6 @@ namespace MovieShop.Infrastructure.Migrations
                     b.Navigation("Movie");
                 });
 
-            modelBuilder.Entity("MovieShop.Core.Entities.UserRole", b =>
-                {
-                    b.HasOne("MovieShop.Core.Entities.Role", "Role")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MovieShop.Core.Entities.User", "User")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("MovieShop.Core.Entities.Cast", b =>
                 {
                     b.Navigation("MovieCasts");
@@ -575,27 +475,16 @@ namespace MovieShop.Infrastructure.Migrations
 
                     b.Navigation("MovieCrews");
 
-                    b.Navigation("Purchases");
-
                     b.Navigation("Reviews");
 
                     b.Navigation("Trailers");
-                });
-
-            modelBuilder.Entity("MovieShop.Core.Entities.Role", b =>
-                {
-                    b.Navigation("UserRoles");
                 });
 
             modelBuilder.Entity("MovieShop.Core.Entities.User", b =>
                 {
                     b.Navigation("Favorites");
 
-                    b.Navigation("Purchases");
-
                     b.Navigation("Reviews");
-
-                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }
