@@ -8,6 +8,7 @@ namespace MovieShop.Web.Controllers
 {
     public class GenreController : Controller
     {
+
         /// <summary>
         /// Return a list of all movie genres
         /// </summary>
