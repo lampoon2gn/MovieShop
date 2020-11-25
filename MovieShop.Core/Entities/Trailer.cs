@@ -16,5 +16,7 @@ namespace MovieShop.Core.Entities
         //navigation properties, navigate to related entities
         //suppose you get a trailer id and need the movie title, you can get it from the movie object here
         public Movie Movie { get; set; }
+
+        
     }
 }

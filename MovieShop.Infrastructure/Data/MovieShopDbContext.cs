@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -7,6 +8,7 @@ using MovieShop.Core.Entities;
 
 namespace MovieShop.Infrastructure.Data
 {
+    
     public class MovieShopDbContext:DbContext
     {
         //this will get called inside startup.cs
