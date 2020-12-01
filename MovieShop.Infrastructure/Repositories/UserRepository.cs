@@ -5,6 +5,8 @@ using System.Text;
 using MovieShop.Core.RepositoryInterfaces;
 using System.Threading.Tasks;
 using MovieShop.Infrastructure.Data;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace MovieShop.Infrastructure.Repositories
 {
@@ -14,9 +16,9 @@ namespace MovieShop.Infrastructure.Repositories
         {
         }
 
-        public Task<User> GetUserByEmail(string email)
+        public async Task<User> GetUserByEmail(string email)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
     }
 }

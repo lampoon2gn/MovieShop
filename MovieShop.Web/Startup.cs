@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -35,14 +36,32 @@ namespace MovieShop.Web
             services.AddDbContext<MovieShopDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString(("MovieShopDbConnection"))));
 
-            //=======================================================
-            //.net core had built in inversion of control(DI) support
-            //.net frameworkd does not, so we need to use third party solutions
-            //=======================================================
-            services.AddScoped<IMovieService, MovieServices>();//this will replace the interface with the implementation
-            services.AddScoped<IMovieRepository, MovieRepository>();
-            services.AddScoped<IGenreService, GenreServices>();
-            services.AddScoped<IAsyncRepository<Genre>, EfRepository<Genre>>();
+
+            // authentication middleware, sets the default authentication scheme for the app
+ 
+             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+             {
+                 options.Cookie.Name = "MovieShopAuthCookie";
+                 options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                 options.LoginPath = "/Account/Login";
+             });
+
+             //check if the MOvieShopAuthCookie exists, and if its expired
+
+
+
+
+             //=======================================================
+             //.net core had built in inversion of control(DI) support
+             //.net frameworkd does not, so we need to use third party solutions
+             //=======================================================
+             services.AddScoped<IMovieService, MovieServices>();//this will replace the interface with the implementation
+             services.AddScoped<IMovieRepository, MovieRepository>();
+             services.AddScoped<IGenreService, GenreServices>();
+             services.AddScoped<IAsyncRepository<Genre>, EfRepository<Genre>>();
+             services.AddScoped<IUserService, UserServices>();
+             services.AddScoped<IUserRepository, UserRepository>();
+             services.AddScoped<ICryptoService, CryptoServices> ();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,6 +79,7 @@ namespace MovieShop.Web
 
             app.UseRouting(); //very important
 
+            app.UseAuthentication();// for [Authorize] filter
             app.UseAuthorization(); //for authentication
 
             app.UseEndpoints(endpoints =>

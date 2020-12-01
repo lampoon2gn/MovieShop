@@ -1,4 +1,5 @@
-﻿using MovieShop.Core.Models.Response;
+﻿using MovieShop.Core.Models.Request;
+using MovieShop.Core.Models.Response;
 using MovieShop.Core.RepositoryInterfaces;
 using MovieShop.Core.ServiceInterfaces;
 using MovieShop.Infrastructure.Data;
@@ -24,6 +25,11 @@ namespace MovieShop.Infrastructure.Services
             _repository = repository;
         }
 
+        public Task<MovieDetailsResponseModel> CreateMovie(MovieCreateRequest movieCreateRequest)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<MovieDetailsResponseModel> GetMovieAsync(int id)
         {
             var movie = await _repository.GetByIdAsync(id);
@@ -37,6 +43,11 @@ namespace MovieShop.Infrastructure.Services
         }
 
         public Task<int> GetMoviesCount(string title = "")
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<ReviewMovieResponseModel>> GetReviewsForMovie(int id)
         {
             throw new NotImplementedException();
         }
@@ -64,6 +75,9 @@ namespace MovieShop.Infrastructure.Services
             return movieResponseModel;
         }
 
-
+        public Task<MovieDetailsResponseModel> UpdateMovie(MovieCreateRequest movieCreateRequest)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
