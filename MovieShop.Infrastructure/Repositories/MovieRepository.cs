@@ -43,5 +43,14 @@ namespace MovieShop.Infrastructure.Repositories
             //if (movieRating > 0) movie.Rating = movieRating;
             return movie;
         }
+        public async Task<Movie> GetByNameAsync(string title)
+        {
+            var movie = await _dbContext.Movies
+                                        .FirstOrDefaultAsync(m => m.Title == title);
+            if (movie == null) return null;
+     
+            //if (movieRating > 0) movie.Rating = movieRating;
+            return movie;
+        }
     }
 }

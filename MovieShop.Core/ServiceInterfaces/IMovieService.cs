@@ -18,8 +18,8 @@ namespace MovieShop.Core.ServiceInterfaces
         Task<IEnumerable<MovieResponseModel>> GetTopRatedMovies();
         Task<IEnumerable<MovieResponseModel>> GetTopRevenueMovies();
         Task<IEnumerable<MovieResponseModel>> GetMoviesByGenre(int genreId);
-        Task<MovieDetailsResponseModel> CreateMovie(MovieCreateRequest movieCreateRequest);
-        Task<MovieDetailsResponseModel> UpdateMovie(MovieCreateRequest movieCreateRequest);
+        Task<MovieDetailsResponseModel> CreateMovie(MovieCreateRequestModel movieCreateRequest);
+        Task<MovieDetailsResponseModel> UpdateMovie(MovieCreateRequestModel movieCreateRequest);
 
 
     }

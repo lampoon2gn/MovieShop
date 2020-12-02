@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using MovieShop.Core.Models.Request;
+using MovieShop.Core.ServiceInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +11,12 @@ namespace MovieShop.Web.Controllers
 {
     public class MovieController : Controller
     {
+
+        private readonly IMovieService _movieService;
+        public MovieController(IMovieService movieService)
+        {
+            _movieService = movieService;
+        }
         /// <summary>
         /// Returns top 20 movies
         /// </summary>
@@ -34,6 +43,25 @@ namespace MovieShop.Web.Controllers
         /// <returns>A single movie</returns>
         public IActionResult Details(int movieId)
         {
+            return View();
+        }
+
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> AddMovie()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddMovie(MovieCreateRequestModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                //send the model to our service
+                await _movieService.CreateMovie(model);
+            }
             return View();
         }
     }
