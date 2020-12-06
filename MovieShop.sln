@@ -5,9 +5,13 @@ VisualStudioVersion = 16.0.30711.63
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieShop.Web", "MovieShop.Web\MovieShop.Web.csproj", "{40355B77-AE20-4DC7-BC3B-FFF9E33048D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieShop.Core", "MovieShop.Core\MovieShop.Core.csproj", "{40889BDD-A014-4DBD-806A-88A53BEF2649}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieShop.Core", "MovieShop.Core\MovieShop.Core.csproj", "{40889BDD-A014-4DBD-806A-88A53BEF2649}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieShop.Infrastructure", "MovieShop.Infrastructure\MovieShop.Infrastructure.csproj", "{C80B16CE-C267-466A-8F7F-95655C8BF96D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieShop.Infrastructure", "MovieShop.Infrastructure\MovieShop.Infrastructure.csproj", "{C80B16CE-C267-466A-8F7F-95655C8BF96D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieShop.UnitTests", "MovieShop.UnitTests\MovieShop.UnitTests.csproj", "{C22C8681-2991-4A70-80D9-A7B4CA2D4405}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovieShop.API", "MovieShop.API\MovieShop.API.csproj", "{B3CB18BD-9339-40FE-8171-395C9E56965E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{C80B16CE-C267-466A-8F7F-95655C8BF96D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C80B16CE-C267-466A-8F7F-95655C8BF96D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C80B16CE-C267-466A-8F7F-95655C8BF96D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C22C8681-2991-4A70-80D9-A7B4CA2D4405}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C22C8681-2991-4A70-80D9-A7B4CA2D4405}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C22C8681-2991-4A70-80D9-A7B4CA2D4405}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C22C8681-2991-4A70-80D9-A7B4CA2D4405}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3CB18BD-9339-40FE-8171-395C9E56965E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3CB18BD-9339-40FE-8171-395C9E56965E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3CB18BD-9339-40FE-8171-395C9E56965E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3CB18BD-9339-40FE-8171-395C9E56965E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -3,11 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MovieShop.Core.Models.Request
+namespace MovieShop.Core.Models.Response
 {
-    public class MovieCreateRequestModel
+    public class TopRatedMoviesResponseModel
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Overview { get; set; }
         public string Tagline { get; set; }
@@ -24,17 +24,9 @@ namespace MovieShop.Core.Models.Request
         public DateTime? CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
         public string UpdatedBy { get; set; }
+        public decimal Rating { get; set; }
         public string CreatedBy { get; set; }
 
-        //one movie can have multiple trailers
-        public ICollection<Trailer> Trailers { get; set; }
 
-        //the navigation property of movie+genre will automatically create a junction table for genre and movie
-        public ICollection<Genre> Genres { get; set; }
-        public ICollection<MovieCast> MovieCasts { get; set; }
-        public ICollection<MovieCrew> MovieCrews { get; set; }
-        public ICollection<Review> Reviews { get; set; }
-        public ICollection<Favorite> Favorites { get; set; }
-        public ICollection<Purchase> Purchases { get; set; }
     }
 }

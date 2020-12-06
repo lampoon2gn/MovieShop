@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MovieShop.Core.ServiceInterfaces
 {
-    public interface ICastService
+    public interface IPurchaseService
     {
-        //Task<CastDetailsResponseModel> GetCastDetailsWithMovies(int id);
-        Task<Cast> GetCastById(int id);
+        Task<IEnumerable<Purchase>> GetLatestPurchasedAsync();
+        
     }
 }

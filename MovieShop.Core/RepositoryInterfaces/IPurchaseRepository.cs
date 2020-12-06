@@ -10,6 +10,6 @@ namespace MovieShop.Core.RepositoryInterfaces
     {
         Task<IEnumerable<Purchase>> GetAllPurchases(int pageSize = 30, int pageIndex = 0);
         Task<IEnumerable<Purchase>> GetAllPurchasesByMovie(int movieId, int pageSize = 30, int pageIndex = 0);
-
+        Task<IEnumerable<Purchase>> GetLatestPurchasedAsync();
     }
 }

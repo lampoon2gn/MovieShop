@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace MovieShop.Core.ServiceInterfaces
 {
-    public interface ICastService
+    public interface IReviewService
     {
-        //Task<CastDetailsResponseModel> GetCastDetailsWithMovies(int id);
-        Task<Cast> GetCastById(int id);
+        Task<IEnumerable<Review>> GetReviewsByMovieId(int movieId);
     }
 }

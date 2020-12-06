@@ -3,8 +3,12 @@ using MovieShop.Core.Models.Request;
 using MovieShop.Core.Models.Response;
 using MovieShop.Core.RepositoryInterfaces;
 using MovieShop.Core.ServiceInterfaces;
+using MovieShop.Infrastructure.Exceptions;
+using MovieShop.Infrastructure.Helper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -89,14 +93,22 @@ namespace MovieShop.Infrastructure.Services
             throw new NotImplementedException();
         }
 
-        public Task<User> GetUser(string email)
+        public async Task<User> GetUser(string email)
         {
-            throw new NotImplementedException();
+            var user = await _userRepository.ListAsync(u => u.Email.Equals(email));
+            if (user==null)
+            {
+                throw new UserNotFoundException(email);
+            }
+            return user.ToList()[0];
         }
 
-        public Task<UserRegisterResponseModel> GetUserDetails(int id)
+        public async Task<UserRegisterResponseModel> GetUserDetails(int id)
         {
-            throw new NotImplementedException();
+            var user = await _userRepository.GetByIdAsync(id);
+            var details = new UserRegisterResponseModel();
+            PropertyCopy.Copy(details, user);
+            return details;
         }
 
         public Task<bool> IsMoviePurchased(PurchaseRequestModel purchaseRequest)
