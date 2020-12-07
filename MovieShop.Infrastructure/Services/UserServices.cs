@@ -5,6 +5,7 @@ using MovieShop.Core.RepositoryInterfaces;
 using MovieShop.Core.ServiceInterfaces;
 using MovieShop.Infrastructure.Exceptions;
 using MovieShop.Infrastructure.Helper;
+using MovieShop.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,21 +20,46 @@ namespace MovieShop.Infrastructure.Services
     {
         //do DI here
         private readonly IUserRepository _userRepository;
+        private readonly IMovieRepository _movieRepository;
         private readonly ICryptoService _encryptionService;
-        public UserServices(IUserRepository repo, ICryptoService encryptionService)
+        private readonly IAsyncRepository<Purchase> _purchaseRepo;
+        private readonly IAsyncRepository<Favorite> _favoriteRepo;
+        private readonly IReviewRepository _reviewRepo;
+        public UserServices(IUserRepository repo, 
+            ICryptoService encryptionService, 
+            IMovieRepository movieRepository, 
+            IAsyncRepository<Purchase> purchaseRepo,
+            IAsyncRepository<Favorite> favoriteRepo,
+            IReviewRepository reviewRepo
+            )
         {
             _userRepository = repo;
             _encryptionService = encryptionService;
+            _movieRepository = movieRepository;
+            _purchaseRepo = purchaseRepo;
+            _favoriteRepo = favoriteRepo;
+            _reviewRepo = reviewRepo;
         }
 
-        public Task AddFavorite(FavoriteRequestModel favoriteRequest)
+        public async Task<Favorite> AddFavorite(FavoriteRequestModel favoriteRequest)
         {
-            throw new NotImplementedException();
+            var fav = new Favorite();
+            PropertyCopy.Copy(fav, favoriteRequest);
+
+            //var movie = await _movieRepository.GetByIdAsync(purchase.MovieId);
+            //var user = await _userRepository.GetByIdAsync(purchase.UserId);
+            //purchase.Movie = movie;
+            //purchase.User = user;
+            //purchase.Id = null;
+            return await _favoriteRepo.AddAsync(fav);
         }
 
-        public Task AddMovieReview(ReviewRequestModel reviewRequest)
+        public async Task AddMovieReview(ReviewRequestModel reviewRequest)
         {
-            throw new NotImplementedException();
+            var rev = new Review();
+            PropertyCopy.Copy(rev, reviewRequest);
+            var res = await _reviewRepo.AddAsync(rev);
+
         }
 
         public async Task<UserRegisterResponseModel> CreateUser(UserRegisterRequestModel requestModel)
@@ -68,29 +94,51 @@ namespace MovieShop.Infrastructure.Services
             return response;
         }
 
-        public Task DeleteMovieReview(int userId, int movieId)
+        public async Task DeleteMovieReview(int userId, int movieId)
         {
-            throw new NotImplementedException();
+            var res = await _reviewRepo.ListAsync(f => f.UserId == userId && f.MovieId == movieId);
+            Review rev = res.First();
+            await _reviewRepo.DeleteAsync(rev);
         }
 
-        public Task<bool> FavoriteExists(int id, int movieId)
+        public async Task<bool> FavoriteExists(int id, int movieId)
         {
-            throw new NotImplementedException();
+            var fav = await _favoriteRepo.ListAsync(f=>f.UserId==id&&f.MovieId==movieId);
+            if (fav.Count()!=0)
+            {
+                return true;
+            }
+            return false;
         }
 
-        public Task<FavoriteResponseModel> GetAllFavoritesForUser(int id)
+        public Task<IEnumerable<Movie>> GetAllFavoritesForUser(int id)
         {
-            throw new NotImplementedException();
+            var fav = _favoriteRepo.ListAsync(p => p.UserId == id).Result;
+            List<int> movieId = new List<int>();
+            foreach (var movie in fav)
+            {
+                movieId.Add(movie.MovieId);
+            }
+            var movies = _movieRepository.ListAsync(m => movieId.Contains(m.Id));
+            return movies;
         }
 
-        public Task<PurchaseResponseModel> GetAllPurchasesForUser(int id)
+        public Task<IEnumerable<Movie>> GetAllPurchasesForUser(int id)
         {
-            throw new NotImplementedException();
+            var pur = _purchaseRepo.ListAsync(p => p.UserId == id).Result;
+            List<int> movieId = new List<int>();
+            foreach (var movie in pur)
+            {
+                movieId.Add(movie.MovieId);
+            }
+            var movies = _movieRepository.ListAsync(m => movieId.Contains(m.Id));
+            return movies;
         }
 
-        public Task<ReviewResponseModel> GetAllReviewsByUser(int id)
+        public async Task<IEnumerable<Review>> GetAllReviewsByUser(int id)
         {
-            throw new NotImplementedException();
+            var reviews = await _reviewRepo.ListAsync(r=>r.UserId==id);
+            return reviews;
         }
 
         public async Task<User> GetUser(string email)
@@ -116,19 +164,34 @@ namespace MovieShop.Infrastructure.Services
             throw new NotImplementedException();
         }
 
-        public Task PurchaseMovie(PurchaseRequestModel purchaseRequest)
+        public async Task<Purchase> PurchaseMovie(PurchaseRequestModel purchaseRequest)
         {
-            throw new NotImplementedException();
+            var purchase = new Purchase();
+            PropertyCopy.Copy(purchase, purchaseRequest);
+
+            var movie = await _movieRepository.GetByIdAsync(purchase.MovieId);
+            var user = await _userRepository.GetByIdAsync(purchase.UserId);
+            purchase.Movie = movie;
+            purchase.User = user;
+            //purchase.Id = null;
+            return await _purchaseRepo.AddAsync(purchase);
+           
         }
 
-        public Task RemoveFavorite(FavoriteRequestModel favoriteRequest)
+        public async Task RemoveFavorite(FavoriteRequestModel favoriteRequest)
         {
-            throw new NotImplementedException();
+            var fav = await _favoriteRepo.ListAsync(f=>f.UserId==favoriteRequest.UserId && f.MovieId==favoriteRequest.MovieId);
+            
+            await _favoriteRepo.DeleteAsync(fav.First());
         }
 
-        public Task UpdateMovieReview(ReviewRequestModel reviewRequest)
+        public async Task UpdateMovieReview(ReviewRequestModel reviewRequest)
         {
-            throw new NotImplementedException();
+            var res = await _reviewRepo.ListAsync(f => f.UserId == reviewRequest.UserId && f.MovieId == reviewRequest.MovieId);
+            Review rev = res.First();
+            rev.ReviewText = reviewRequest.ReviewText;
+            rev.Rating = reviewRequest.Rating;
+            await _reviewRepo.UpdateAsync(rev);
         }
 
         public async Task<UserLoginResponseModel> ValidateUser(string email, string password)
@@ -160,5 +223,6 @@ namespace MovieShop.Infrastructure.Services
 
 
         }
+
     }
 }

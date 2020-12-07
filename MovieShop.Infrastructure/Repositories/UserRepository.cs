@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using MovieShop.Infrastructure.Data;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using MovieShop.Core.Models.Request;
+using MovieShop.Infrastructure.Helper;
 
 namespace MovieShop.Infrastructure.Repositories
 {
