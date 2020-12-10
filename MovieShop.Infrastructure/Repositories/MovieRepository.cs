@@ -109,7 +109,7 @@ namespace MovieShop.Infrastructure.Repositories
 
         public async Task<IEnumerable<Movie>> GetMoviesByGenre(Expression<Func<Movie, bool>> filter)
         {
-            return await _dbContext.Set<Movie>().Where(filter)/*.Include(m=>m.Genres).IgnoreAutoIncludes().AsNoTracking()*/.ToListAsync();
+            return await _dbContext.Set<Movie>().Where(filter).Include(m=>m.Genres).ToListAsync();
         }
 
         

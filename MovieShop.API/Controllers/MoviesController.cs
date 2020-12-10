@@ -85,7 +85,7 @@ namespace MovieShop.API.Controllers
 
             //remember to return http status code
 
-            if (!movies.Any())
+            if (movies==null)
             {
                 return NotFound("No movies found in this genre");
             }

@@ -21,7 +21,8 @@ namespace MovieShop.Core.ServiceInterfaces
         Task<IEnumerable<Movie>> GetAllFavoritesForUser(int id);
         Task<Purchase> PurchaseMovie(PurchaseRequestModel purchaseRequest);
         Task<bool> IsMoviePurchased(PurchaseRequestModel purchaseRequest);
-        Task<IEnumerable<Movie>> GetAllPurchasesForUser(int id);
+        //Task<IEnumerable<Movie>> GetAllPurchasesForUser(int id);
+        Task<PurchaseResponseModel> GetAllPurchasesForUser(int id);
         Task AddMovieReview(ReviewRequestModel reviewRequest);
         Task UpdateMovieReview(ReviewRequestModel reviewRequest);
         Task DeleteMovieReview(int userId, int movieId);

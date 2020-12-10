@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MovieShop.Core.Models.Request;
 using MovieShop.Core.ServiceInterfaces;
@@ -22,6 +23,7 @@ namespace MovieShop.API.Controllers
             //_reviewService = reviewService;
         }
 
+        [Authorize]
         [HttpPost]
         [Route("purchase")]
         public async Task<IActionResult> MakePurchase(PurchaseRequestModel model)

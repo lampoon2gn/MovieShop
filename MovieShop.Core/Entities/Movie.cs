@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -30,6 +31,7 @@ namespace MovieShop.Core.Entities
         public ICollection<Trailer> Trailers { get; set; }
 
         //the navigation property of movie+genre will automatically create a junction table for genre and movie
+        [JsonIgnore]
         public ICollection<Genre> Genres { get; set; }
         public ICollection<MovieCast> MovieCasts { get; set; }
         public ICollection<MovieCrew> MovieCrews { get; set; }

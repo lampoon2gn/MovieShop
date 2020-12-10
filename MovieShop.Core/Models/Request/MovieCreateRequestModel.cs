@@ -1,40 +1,54 @@
 ﻿using MovieShop.Core.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace MovieShop.Core.Models.Request
 {
     public class MovieCreateRequestModel
     {
-        public int ID { get; set; }
+        public int Id { get; set; }
+
+        [Required]
+        [StringLength(150)]
         public string Title { get; set; }
+
+        [StringLength(2084)]
         public string Overview { get; set; }
+
+        [StringLength(2084)]
         public string Tagline { get; set; }
-        public decimal? Budget { get; set; }
+
+        [Range(0, 5000000000)]
+        [RegularExpression("^(\\d{1,18})(.\\d{1})?$")]
         public decimal? Revenue { get; set; }
+
+        [Range(0, 500000000)]
+        public decimal? Budget { get; set; }
+
+        [Url]
         public string ImdbUrl { get; set; }
+
+        [Url]
         public string TmdbUrl { get; set; }
+
+        [Required]
+        [Url]
         public string PosterUrl { get; set; }
+
+        [Required]
+        [Url]
         public string BackdropUrl { get; set; }
+
         public string OriginalLanguage { get; set; }
+
         public DateTime? ReleaseDate { get; set; }
+
         public int? RunTime { get; set; }
+
         public decimal? Price { get; set; }
-        public DateTime? CreatedDate { get; set; }
-        public DateTime? UpdatedDate { get; set; }
-        public string UpdatedBy { get; set; }
-        public string CreatedBy { get; set; }
 
-        //one movie can have multiple trailers
-        public ICollection<Trailer> Trailers { get; set; }
-
-        //the navigation property of movie+genre will automatically create a junction table for genre and movie
-        public ICollection<Genre> Genres { get; set; }
-        public ICollection<MovieCast> MovieCasts { get; set; }
-        public ICollection<MovieCrew> MovieCrews { get; set; }
-        public ICollection<Review> Reviews { get; set; }
-        public ICollection<Favorite> Favorites { get; set; }
-        public ICollection<Purchase> Purchases { get; set; }
+        public List<Genre> Genres { get; set; }
     }
 }

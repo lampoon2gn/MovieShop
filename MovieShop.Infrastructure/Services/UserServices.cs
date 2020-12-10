@@ -12,6 +12,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace MovieShop.Infrastructure.Services
 {
@@ -25,12 +26,14 @@ namespace MovieShop.Infrastructure.Services
         private readonly IAsyncRepository<Purchase> _purchaseRepo;
         private readonly IAsyncRepository<Favorite> _favoriteRepo;
         private readonly IReviewRepository _reviewRepo;
+        private readonly IMapper _mapper;
         public UserServices(IUserRepository repo, 
             ICryptoService encryptionService, 
             IMovieRepository movieRepository, 
             IAsyncRepository<Purchase> purchaseRepo,
             IAsyncRepository<Favorite> favoriteRepo,
-            IReviewRepository reviewRepo
+            IReviewRepository reviewRepo,
+            IMapper mapper
             )
         {
             _userRepository = repo;
@@ -39,6 +42,7 @@ namespace MovieShop.Infrastructure.Services
             _purchaseRepo = purchaseRepo;
             _favoriteRepo = favoriteRepo;
             _reviewRepo = reviewRepo;
+            _mapper = mapper;
         }
 
         public async Task<Favorite> AddFavorite(FavoriteRequestModel favoriteRequest)
@@ -123,7 +127,7 @@ namespace MovieShop.Infrastructure.Services
             return movies;
         }
 
-        public Task<IEnumerable<Movie>> GetAllPurchasesForUser(int id)
+        /*public Task<IEnumerable<Movie>> GetAllPurchasesForUser(int id)
         {
             var pur = _purchaseRepo.ListAsync(p => p.UserId == id).Result;
             List<int> movieId = new List<int>();
@@ -133,6 +137,17 @@ namespace MovieShop.Infrastructure.Services
             }
             var movies = _movieRepository.ListAsync(m => movieId.Contains(m.Id));
             return movies;
+        }*/
+        public async Task<PurchaseResponseModel> GetAllPurchasesForUser(int id)
+        {
+            /*if (_currentUserService.UserId != id)
+                throw new HttpException(HttpStatusCode.Unauthorized, "You are not Authorized to View Purchases");*/
+
+            var purchasedMovies = await _purchaseRepo.ListAllWithIncludesAsync(
+                //p => p.UserId == _currentUserService.UserId,
+                p => p.UserId == id,
+                p => p.Movie);
+            return _mapper.Map<PurchaseResponseModel>(purchasedMovies);
         }
 
         public async Task<IEnumerable<Review>> GetAllReviewsByUser(int id)
